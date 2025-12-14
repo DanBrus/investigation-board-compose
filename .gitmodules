@@ -1,0 +1,9 @@
+[submodule "IB-graph-server"]
+	path = IB-graph-server
+	url = https://github.com/DanBrus/IB-graph-server
+[submodule "IB-file-server"]
+	path = IB-file-server
+	url = https://github.com/DanBrus/IB-file-server
+[submodule "IB-frontend"]
+	path = IB-frontend
+	url = https://github.com/DanBrus/IB-frontend
