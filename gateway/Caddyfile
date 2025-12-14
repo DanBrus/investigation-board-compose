@@ -1,0 +1,17 @@
+:80 {
+  # API: сначала отрезаем /api
+  handle_path /api/* {
+    handle /board/* {
+      reverse_proxy graph_server:8001
+    }
+
+    handle /files/* {
+      reverse_proxy file_server:8081
+    }
+  }
+
+  # фронтенд (SPA) — проксируем на контейнер с готовой сборкой
+  handle {
+    reverse_proxy frontend:3000
+  }
+}
