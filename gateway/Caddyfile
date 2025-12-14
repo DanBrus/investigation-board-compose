@@ -1,11 +1,11 @@
 :80 {
   # API: сначала отрезаем /api
   handle_path /api/* {
-    handle /board/* {
+    handle /graph/* {
       reverse_proxy graph_server:8001
     }
 
-    handle /files/* {
+    handle /res/* {
       reverse_proxy file_server:8081
     }
   }

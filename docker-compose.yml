@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   graph_db:
     build: ./IB-graph-server/typedb-server
