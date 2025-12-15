@@ -46,7 +46,7 @@ services:
       context: ./IB-frontend
       args:
         VITE_API_BASE_URL: /api
-        VITE_FILE_BASE_URL: /api/files
+        VITE_FILE_BASE_URL: /api
     container_name: frontend-container
     environment:
       HOST: 0.0.0.0
