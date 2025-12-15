@@ -9,6 +9,10 @@ services:
       - ./data/db:/deps
     ports:
       - "1729:1729"
+    hostname: graph-db
+    networks:
+      default:
+        aliases: [graph-db]
     healthcheck:
       test: ["CMD-SHELL", "nc -z 127.0.0.1 1729"]
       interval: 5s
@@ -20,7 +24,7 @@ services:
     build: ./IB-graph-server
     container_name: graph_server_container
     environment:
-      TYPEDB_ADDRESS: graph_db:1729
+      TYPEDB_ADDRESS: graph-db:1729
     depends_on:
       graph_db:
         condition: service_healthy
