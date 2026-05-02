@@ -1,10 +1,19 @@
+x-logging-defaults: &logging-defaults
+  logging:
+    driver: json-file
+    options:
+      max-size: "100m"
+      max-file: "10"
+
 services:
   graph_db:
+    <<: *logging-defaults
     build: ./IB-graph-server/typedb-server
     container_name: graph_db_container
     environment:
       TYPEDB_ADDRESS: 0.0.0.0:1729
       DUMPS_DIR: /deps
+      NPROD: "${NPROD:-}"
     volumes:
       - ./data/db:/deps
     ports:
@@ -21,6 +30,7 @@ services:
     restart: unless-stopped
 
   graph_server:
+    <<: *logging-defaults
     build: ./IB-graph-server
     container_name: graph_server_container
     environment:
@@ -33,6 +43,7 @@ services:
     restart: unless-stopped
 
   file_server:
+    <<: *logging-defaults
     build: ./IB-file-server
     container_name: file_server_container
     environment:
@@ -46,6 +57,7 @@ services:
     restart: unless-stopped
 
   authentification_server:
+    <<: *logging-defaults
     build: ./IB-authentification-server
     container_name: authentification_server_container
     environment:
@@ -56,6 +68,7 @@ services:
     restart: unless-stopped
 
   frontend:
+    <<: *logging-defaults
     build:
       context: ./IB-frontend
       args:
@@ -78,6 +91,7 @@ services:
     restart: unless-stopped
 
   gateway:
+    <<: *logging-defaults
     image: caddy:2-alpine
     container_name: gateway
     depends_on:
