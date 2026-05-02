@@ -8,14 +8,20 @@ x-logging-defaults: &logging-defaults
 services:
   graph_db:
     <<: *logging-defaults
-    build: ./IB-graph-server/typedb-server
+    build:
+      context: ./IB-graph-server/typedb-server
+      network: host
     container_name: graph_db_container
     environment:
       TYPEDB_ADDRESS: 0.0.0.0:1729
       DUMPS_DIR: /deps
       NPROD: "${NPROD:-}"
     volumes:
-      - ./data/db:/deps
+    # dump/import/export файлы
+    - ./data/db:/deps
+    # постоянные данные самой TypeDB
+    - ./data/typedb:/var/lib/typedb/data
+
     ports:
       - "1729:1729"
     hostname: graph-db
@@ -23,7 +29,7 @@ services:
       default:
         aliases: [graph-db]
     healthcheck:
-      test: ["CMD-SHELL", "nc -z 127.0.0.1 1729"]
+      test: ["CMD-SHELL", "bash -c '</dev/tcp/127.0.0.1/1729'"]
       interval: 5s
       timeout: 3s
       retries: 12
