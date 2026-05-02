@@ -26,6 +26,10 @@
   handle /api/* {
     respond "Not found" 404
   }
+  handle /auth/* {
+    uri strip_prefix /auth
+    reverse_proxy authentification_server:8082
+  }
   # фронтенд (SPA) — проксируем на контейнер с готовой сборкой
   handle {
     reverse_proxy frontend:3000

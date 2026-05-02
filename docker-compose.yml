@@ -45,12 +45,23 @@ services:
       - "8081:8081"
     restart: unless-stopped
 
+  authentification_server:
+    build: ./IB-authentification-server
+    container_name: authentification_server_container
+    environment:
+      AUTHSERVER_HOST: 0.0.0.0
+      AUTHSERVER_PORT: 8082
+    ports:
+      - "8082:8082"
+    restart: unless-stopped
+
   frontend:
     build:
       context: ./IB-frontend
       args:
         VITE_API_BASE_URL: /api
         VITE_FILE_BASE_URL: /api
+        VITE_AUTH_BASE_URL: /auth
     container_name: frontend-container
     environment:
       HOST: 0.0.0.0
@@ -59,6 +70,8 @@ services:
       graph_server:
         condition: service_started
       file_server:
+        condition: service_started
+      authentification_server:
         condition: service_started
     ports:
       - "3000:3000"
@@ -71,6 +84,8 @@ services:
       graph_server:
         condition: service_started
       file_server:
+        condition: service_started
+      authentification_server:
         condition: service_started
       frontend:
         condition: service_started
