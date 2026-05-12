@@ -43,3 +43,43 @@ tsarstvie-investigation.kz {
     reverse_proxy frontend:3000
   }
 }
+
+tsarstvie-investigation.com {
+  log {
+    output stdout
+    format json
+    level DEBUG
+  }
+
+  encode zstd gzip
+
+  # API: прокидываем в бэкенды, срезая только /api
+  handle /api/graph/* {
+    uri strip_prefix /api
+    reverse_proxy graph_server:8001
+  }
+
+  handle /api/res/* {
+    uri strip_prefix /api
+    reverse_proxy file_server:8081
+  }
+
+  handle /api/res {
+    uri strip_prefix /api
+    reverse_proxy file_server:8081
+  }
+
+  handle /api/* {
+    respond "Not found" 404
+  }
+
+  handle /auth/* {
+    uri strip_prefix /auth
+    reverse_proxy authentification_server:8082
+  }
+
+  # фронтенд SPA
+  handle {
+    reverse_proxy frontend:3000
+  }
+}
