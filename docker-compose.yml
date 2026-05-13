@@ -29,10 +29,11 @@ services:
       default:
         aliases: [graph-db]
     healthcheck:
-      test: ["CMD-SHELL", "bash -c '</dev/tcp/127.0.0.1/1729'"]
+      test: ["CMD-SHELL", "test -f /tmp/typedb-startup-complete"]
+      start_period: 60s
       interval: 5s
       timeout: 3s
-      retries: 12
+      retries: 24
     restart: unless-stopped
 
   graph_server:
