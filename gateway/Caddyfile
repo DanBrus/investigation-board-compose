@@ -15,6 +15,10 @@
     uri strip_prefix /api
     reverse_proxy graph_server:8001
   }
+  handle /api/analyze/* {
+    uri strip_prefix /api
+    reverse_proxy graph_server:8001
+  }
   handle /api/res/* {
     uri strip_prefix /api
     reverse_proxy file_server:8081

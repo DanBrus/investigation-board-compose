@@ -11,6 +11,8 @@ services:
     build:
       context: ./IB-graph-server/typedb-server
       network: host
+      args:
+        TYPEDB_VERSION: "3.7.0"
     container_name: graph_db_container
     environment:
       TYPEDB_ADDRESS: 0.0.0.0:1729
